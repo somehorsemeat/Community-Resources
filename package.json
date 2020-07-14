@@ -1,6 +1,6 @@
 {
-  "name": "wsdsystem",
-  "version": "1.2.8",
+  "name": "communityresources",
+  "version": "1.0.0",
   "description": "ga",
   "main": "main.js",
   "dependencies": {
