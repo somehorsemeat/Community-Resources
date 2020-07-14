@@ -27,7 +27,7 @@ load()
 
 Bot.on('guildMemberAdd' , async member =>
 {
-  var channel = member.guild.channels.find(channel => channel.id === 626104042023551047);
+  var channel = member.guild.channels.cache.get('626104042023551047');
   if(!channel) return;
   channel.send(`${member}Greetings New Player! Please join the K76 server via this link! https://discord.gg/ES2kRk `);
 });
