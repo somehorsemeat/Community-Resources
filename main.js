@@ -25,12 +25,16 @@ function load(){
 
 load()
 
+Bot.on('guildMemberAdd' , async member =>
+{
+  var channel = member.guild.channels.find(channel => channel.name === "text");
+  if(!channel) return;
+  var wellcometext=[`${member}Greetings New Player! Please join the K76 server via this link! https://discord.gg/ES2kRk `];
+  channel.send(wellcometext[Math.floor((Math.random()*wellcometext.length))]);
+});
+
 Bot.on("ready", async() =>
 {
-  console.log(`\n\nRoot:\t\t     \x1b[36m${Bot.user.username}\x1b[0m at your service.\n\n`);
-  if(Math.random()<0.5)var rootrlyincmd2="人類，我不用睡覺可不代表我活該TM隨傳隨到=A=\n";
-    else var rootrlyincmd2="如果你只是想隨心所欲開關東西，去買垃圾桶別來煩我=A=\n";
-console.log(`W.S.D.:\t`+rootrlyincmd2);
 var status=["Arranging alliance bank...","Chatting with gurads","Having fun with dragons"];
   Bot.user.setActivity(status[Math.floor((Math.random()*status.length))]);
 });
@@ -39,7 +43,6 @@ Bot.on("message", async msg =>
 {
   if(msg.channel.type =="dm") return;
   let prefix = "/";
-  if(msg.content ==`${prefix}reload`) return load();
   let msgar = msg.content.split(" ");
   let cmd = msgar[0];
   let args = msgar.slice(1);
