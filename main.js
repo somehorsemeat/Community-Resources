@@ -27,7 +27,7 @@ load()
 
 Bot.on('guildMemberAdd' , async member =>
 {
-  var channel = member.guild.channels.find(channel => channel.name === "text");
+  var channel = member.guild.channels.find(channel => channel.name === "general");
   if(!channel) return;
   var wellcometext=[`${member}Greetings New Player! Please join the K76 server via this link! https://discord.gg/ES2kRk `];
   channel.send(wellcometext[Math.floor((Math.random()*wellcometext.length))]);
