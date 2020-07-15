@@ -26,20 +26,20 @@ module.exports.run= async(Bot ,msg, args)=>{
   for(i=0;i<6;i++){
   if(Math.floor(rss[i]/1000000)>0)rss[i]/=1000000,rss[i][1]="b";
   else if (Math.floor(rss[i]/1000)>0)rss[i]/=1000,rss[i][1]="m";
-  else rss[i][0]="k";
+  else rss[i][1]="k";
   }
 
-  msg.reply(`${rss[0]}${rss[0][0]} of Grain,${rss[1]}${rss[1][0]} of Wood,${rss[2]}${rss[2][0]} of Stone,${rss[3]}${rss[3][0]} of Iron and ${rss[4]}${rss[4][0]} of Gold has been successfully recorded under account <${ppl.id}>`);
+  msg.reply(`${rss[0]}${rss[0][1]} of Grain,${rss[1]}${rss[1][1]} of Wood,${rss[2]}${rss[2][1]} of Stone,${rss[3]}${rss[3][1]} of Iron and ${rss[4]}${rss[4][1]} of Gold has been successfully recorded under account <${ppl.id}>`);
   var info = new Discord.MessageEmbed()
   .setTitle('Deposit Balance')
   .addField('Account',ppl.id,true)
   .addField('Name',msg.author.username,true)
-  .addField('Saved Grain',rss[0]+rss[0][0],true)
-  .addField('Saved Wood',rss[1]+rss[1][0],true)
-  .addField('Saved Stone',rss[2]+rss[2][0],true)
-  .addField('Saved Iron',rss[3]+rss[3][0],true)
-  .addField('Saved Gold',rss[4]+rss[4][0],true)
-  .addField('Saved in total',rss[5]+rss[5][0],true)
+  .addField('Saved Grain',rss[0]+rss[0][1],true)
+  .addField('Saved Wood',rss[1]+rss[1][1],true)
+  .addField('Saved Stone',rss[2]+rss[2][1],true)
+  .addField('Saved Iron',rss[3]+rss[3][1],true)
+  .addField('Saved Gold',rss[4]+rss[4][1],true)
+  .addField('Saved in total',rss[5]+rss[5][1],true)
   .setColor(0xFFFFFF)
   .setTimestamp()
   msg.channel.send(info);
