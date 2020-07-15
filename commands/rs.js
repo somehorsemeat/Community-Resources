@@ -13,28 +13,57 @@ module.exports.run= async(Bot ,msg, args)=>{
   for (i=1;i<6;i++)if(msgar[i]/1!=msgar[i])msgar[i]=0;
   var gr=msgar[1],wo=msgar[2],st=msgar[3],ir=msgar[4],go=msgar[5];
 
-  words[ppl].grain= Number(words[ppl].grain)+Number(gr);
-  words[ppl].wood= Number(words[ppl].wood)+Number(wo);
-  words[ppl].stone= Number(words[ppl].stone)+Number(st);
-  words[ppl].iron= Number(words[ppl].iron)+Number(ir);
-  words[ppl].gold= Number(words[ppl].gold)+Number(go);
-  words[ppl].tot= Number(words[ppl].tot)+Number(gr)+Number(wo)+Number(st)+Number(ir)+Number(go);
+  words[ppl].grain= Number(words[ppl].grain)+rss[0];
+  words[ppl].wood= Number(words[ppl].wood)+rss[1];
+  words[ppl].stone= Number(words[ppl].stone)+rss[2];
+  words[ppl].iron= Number(words[ppl].iron)+rss[3];
+  words[ppl].gold= Number(words[ppl].gold)+rss[4];
+  words[ppl].tot= Number(words[ppl].tot)+rss[5];
 
   var data =JSON.stringify(words,null,2);
   Fs.writeFile("./source/rs.json",data,(err)=>{if(err)console.log(err);});
 
-  msg.reply(`${gr}k of Grain,${wo}k of Wood,${st}k of Stone,${ir}k of Iron and ${go}k of Gold has been successfully recorded under account <${ppl.id}>`);
+  switch (rss[5]) {
+    case >1250000:
+      rss[6]=0xff0000;
+      break;
+    case >500000:
+      rss[6]=0xffd700;
+      break;
+    case >125000:
+      rss[6]=0xB981C4;
+      break;
+    case >500000:
+      rss[6]=0x67709D;
+      break;
+    case >125000:
+      rss[6]=0x8CC481;
+      break;
+    case >50000:
+      rss[6]=0x424242;
+      break;
+    default:
+      rss[6]=0xA3A3A3;;
+  }
+
+  for(i=0;i<6;i++){
+  if(Math.floor(rss[i]/1000000)>0)rss[i]/=1000000,rss[i][1]="b";
+  else if (Math.floor(rss[i]/1000)>0)rss[i]/=1000,rss[i][1]="m";
+  else rss[i][0]="k";
+  }
+
+  msg.reply(`${rss[0]}${rss[0][0]} of Grain,${rss[1]}${rss[1][0]} of Wood,${rss[2]}${rss[2][0]} of Stone,${rss[3]}${rss[3][0]} of Iron and ${rss[4]}${rss[4][0]}k of Gold has been successfully recorded under account <${ppl.id}>`);
   var info = new Discord.MessageEmbed()
   .setTitle('Contribution Balance')
   .addField('Account',ppl.id,true)
   .addField('Name',msg.author.username,true)
-  .addField('Contributed Grain',words[ppl].grain+"k",true)
-  .addField('Contributed Wood',words[ppl].wood+"k",true)
-  .addField('Contributed Stone',words[ppl].stone+"k",true)
-  .addField('Contributed Iron',words[ppl].iron+"k",true)
-  .addField('Contributed Gold',words[ppl].gold+"k",true)
-  .addField('Contributed in total',words[ppl].tot+"k",true)
-  .setColor(0x00FF)
+  .addField('Contributed Grain',rss[0]+rss[0][0],true)
+  .addField('Contributed Wood',rss[1]+rss[1][0],true)
+  .addField('Contributed Stone',rss[2]+rss[2][0],true)
+  .addField('Contributed Iron',rss[3]+rss[3][0],true)
+  .addField('Contributed Gold',rss[4]+rss[4][0],true)
+  .addField('Contributed in total',rss[5]+rss[5][0],true)
+  .setColor(rss[6])
   .setTimestamp()
   .setFooter("Thank for your kindly donation")
   msg.channel.send(info);

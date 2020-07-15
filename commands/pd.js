@@ -11,30 +11,36 @@ module.exports.run= async(Bot ,msg, args)=>{
 
   var i;
   for (i=1;i<6;i++)if(msgar[i]/1!=msgar[i])msgar[i]=0;
-  var gr=msgar[1],wo=msgar[2],st=msgar[3],ir=msgar[4],go=msgar[5];
+  var rss=[Number(msgar[1]),Number(msgar[2]),Number(msgar[3]),Number(msgar[4]),Number(msgar[5]),Number(gr)+Number(wo)+Number(st)+Number(ir)+Number(go)];
 
-  words[ppl].grain= Number(words[ppl].grain)+Number(gr);
-  words[ppl].wood= Number(words[ppl].wood)+Number(wo);
-  words[ppl].stone= Number(words[ppl].stone)+Number(st);
-  words[ppl].iron= Number(words[ppl].iron)+Number(ir);
-  words[ppl].gold= Number(words[ppl].gold)+Number(go);
-  words[ppl].tot= Number(words[ppl].tot)+Number(gr)+Number(wo)+Number(st)+Number(ir)+Number(go);
+  words[ppl].grain= Number(words[ppl].grain)+rss[0];
+  words[ppl].wood= Number(words[ppl].wood)+rss[1];
+  words[ppl].stone= Number(words[ppl].stone)+rss[2];
+  words[ppl].iron= Number(words[ppl].iron)+rss[3];
+  words[ppl].gold= Number(words[ppl].gold)+rss[4];
+  words[ppl].tot= Number(words[ppl].tot)+rss[5];
 
   var data =JSON.stringify(words,null,2);
-  Fs.writeFile("./source/rs.json",data,(err)=>{if(err)console.log(err);});
+  Fs.writeFile("./source/pd.json",data,(err)=>{if(err)console.log(err);});
 
-  msg.reply(`${gr}k of Grain,${wo}k of Wood,${st}k of Stone,${ir}k of Iron and ${go}k of Gold has been successfully recorded under account <${ppl.id}>`);
+  for(i=0;i<6;i++){
+  if(Math.floor(rss[i]/1000000)>0)rss[i]/=1000000,rss[i][1]="b";
+  else if (Math.floor(rss[i]/1000)>0)rss[i]/=1000,rss[i][1]="m";
+  else rss[i][0]="k";
+  }
+
+  msg.reply(`${rss[0]}${rss[0][0]} of Grain,${rss[1]}${rss[1][0]} of Wood,${rss[2]}${rss[2][0]} of Stone,${rss[3]}${rss[3][0]} of Iron and ${rss[4]}${rss[4][0]} of Gold has been successfully recorded under account <${ppl.id}>`);
   var info = new Discord.MessageEmbed()
-  .setTitle('Contribution Balance')
+  .setTitle('Deposit Balance')
   .addField('Account',ppl.id,true)
   .addField('Name',msg.author.username,true)
-  .addField('Saved Grain',words[ppl].grain+"k",true)
-  .addField('Saved Wood',words[ppl].wood+"k",true)
-  .addField('Saved Stone',words[ppl].stone+"k",true)
-  .addField('Saved Iron',words[ppl].iron+"k",true)
-  .addField('Saved Gold',words[ppl].gold+"k",true)
-  .addField('Saved in total',words[ppl].tot+"k",true)
-  .setColor(0x00FF)
+  .addField('Saved Grain',rss[0]+rss[0][0],true)
+  .addField('Saved Wood',rss[1]+rss[1][0],true)
+  .addField('Saved Stone',rss[2]+rss[2][0],true)
+  .addField('Saved Iron',rss[3]+rss[3][0],true)
+  .addField('Saved Gold',rss[4]+rss[4][0],true)
+  .addField('Saved in total',rss[5]+rss[5][0],true)
+  .setColor(0xFFFFFF)
   .setTimestamp()
   msg.channel.send(info);
 }
