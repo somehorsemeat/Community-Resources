@@ -11,7 +11,8 @@ module.exports.run= async(Bot ,msg, args)=>{
 
   var i;
   for (i=1;i<6;i++)if(msgar[i]/1!=msgar[i])msgar[i]=0;
-  var gr=msgar[1],wo=msgar[2],st=msgar[3],ir=msgar[4],go=msgar[5];
+  var rss=[Number(msgar[1]),Number(msgar[2]),Number(msgar[3]),Number(msgar[4]),Number(msgar[5]),Number(msgar[1])+Number(msgar[2])+Number(msgar[3])+Number(msgar[4])+Number(msgar[5]),0];
+  var unit=[];
 
   words[ppl].grain= Number(words[ppl].grain)+rss[0];
   words[ppl].wood= Number(words[ppl].wood)+rss[1];
@@ -23,46 +24,31 @@ module.exports.run= async(Bot ,msg, args)=>{
   var data =JSON.stringify(words,null,2);
   Fs.writeFile("./source/rs.json",data,(err)=>{if(err)console.log(err);});
 
-  switch (rss[5]) {
-    case >1250000:
-      rss[6]=0xff0000;
-      break;
-    case >500000:
-      rss[6]=0xffd700;
-      break;
-    case >125000:
-      rss[6]=0xB981C4;
-      break;
-    case >500000:
-      rss[6]=0x67709D;
-      break;
-    case >125000:
-      rss[6]=0x8CC481;
-      break;
-    case >50000:
-      rss[6]=0x424242;
-      break;
-    default:
-      rss[6]=0xA3A3A3;;
-  }
+  if(rss[5]>100000)rss[6]=0xff0000;
+  else if(rss[5]>50000)rss[6]=0xffd700;
+  else if(rss[5]>10000)rss[6]=0xB981C4;
+  else if(rss[5]>50000)rss[6]=0x67709D;
+  else if(rss[5]>10000)rss[6]=0x8CC481;
+  else if(rss[5]>5000)rss[6]=0x424242;
+  else rss[6]=0xA3A3A3;
 
   for(i=0;i<6;i++){
-  if(Math.floor(rss[i]/1000000)>0)rss[i]/=1000000,rss[i][1]="b";
-  else if (Math.floor(rss[i]/1000)>0)rss[i]/=1000,rss[i][1]="m";
-  else rss[i][1]="k";
+  if(rss[i]<1000)unit[i]="k";
+  else if (rss[i]<1000000)unit[i]="m";
+  else unit[i]="b";
   }
 
-  msg.reply(`${rss[0]}${rss[0][1]} of Grain,${rss[1]}${rss[1][1]} of Wood,${rss[2]}${rss[2][1]} of Stone,${rss[3]}${rss[3][1]} of Iron and ${rss[4]}${rss[4][1]}k of Gold has been successfully recorded under account <${ppl.id}>`);
+  msg.reply(`${rss[0]}${unit[0]} of Grain,${rss[1]}${unit[1]} of Wood,${rss[2]}${unit[2]} of Stone,${rss[3]}${unit[3]} of Iron and ${rss[4]}${unit[4]} of Gold has been successfully recorded under account <${ppl.id}>`);
   var info = new Discord.MessageEmbed()
   .setTitle('Contribution Balance')
   .addField('Account',ppl.id,true)
   .addField('Name',msg.author.username,true)
-  .addField('Contributed Grain',rss[0]+rss[0][1],true)
-  .addField('Contributed Wood',rss[1]+rss[1][1],true)
-  .addField('Contributed Stone',rss[2]+rss[2][1],true)
-  .addField('Contributed Iron',rss[3]+rss[3][1],true)
-  .addField('Contributed Gold',rss[4]+rss[4][1],true)
-  .addField('Contributed in total',rss[5]+rss[5][1],true)
+  .addField('Contributed Grain',String(rss[0]).concat(unit[0]),true)
+  .addField('Contributed Wood',String(rss[1]).concat(unit[1]),true)
+  .addField('Contributed Stone',String(rss[2]).concat(unit[2]),true)
+  .addField('Contributed Iron',String(rss[3]).concat(unit[3]),true)
+  .addField('Contributed Gold',String(rss[4]).concat(unit[4]),true)
+  .addField('Contributed in total',String(rss[5]).concat(unit[5]),true)
   .setColor(rss[6])
   .setTimestamp()
   .setFooter("Thank for your kindly donation")
