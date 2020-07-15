@@ -7,12 +7,12 @@ module.exports.run= async(Bot ,msg, args)=>
   var words=JSON.parse(data);
   data =JSON.stringify(words);
 
-  let difppl = data.split("name");
+  let difppl = data.split("<");
 
   for (var i = 1;i<difppl.length;i++){
     difppl[i]=difppl[i].replace("\":\""," ");
 
-    msg.channel.send(difppl[i])}
+    msg.channel.send(difppl[i]);}
 }
 
 module.exports.help={name:"list"}
