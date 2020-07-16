@@ -3,7 +3,8 @@ const Fs =require("fs");
 
 module.exports.run= async(Bot ,msg, args)=>
 {
-  var data =Fs.readFileSync("./source/rs.json","utf-8");
+  let msgar = msg.content.split(" ");
+  if(msgar[1]=='pd'||msgar[1]=='rs')var data =Fs.readFileSync(`./source/${msgar[1]}.json`,"utf-8");
   var words=JSON.parse(data);
   data =JSON.stringify(words);
 
