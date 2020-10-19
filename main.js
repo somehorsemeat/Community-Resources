@@ -34,7 +34,7 @@ Bot.on('guildMemberAdd' , async member =>
 
 Bot.on("ready", async() =>
 {
-var status=["Arranging alliance bank...","Chatting with gurads","Having fun with dragons"];
+var status=["Arranging alliance bank","Chatting with gurads","Having fun with dragons"];
   Bot.user.setActivity(status[Math.floor((Math.random()*status.length))]);
 });
 
