@@ -2,7 +2,7 @@ const Discord =require("discord.js");
 var Fs = require('fs');
 
 module.exports.run= async(Bot ,msg, args)=>
-{z
+{
   let msgar = msg.content.split(" "),BiggerThanOne="";
   if(!msgar[1])return msg.reply("Plese type in how many hour(s) you want me to remind you in");
   if(msgar[1]==="cancel")
